@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Socket.IO Test</title>
+</head>
+<body>
+  <h2>Socket.IO Test Page</h2>
+  <p>Open your browser console to see live messages.</p>
+
+  <!-- Socket.IO client library -->
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <script>
+    const socket = io("http://localhost:8000", {
+      transports: ["websocket"],
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 2000,
+    });
+
+    socket.on("connect", () => {
+      console.log(" Connected:", socket.id);
+      socket.emit("message", "Hello from Django template!");
+    });
+
+    socket.on("response", (data) => {
+      console.log(" Server says:", data);
+    });
+
+    socket.on("disconnect", (reason) => {
+      console.log("Disconnected:", reason);
+    });
+  </script>
+</body>
+</html>
